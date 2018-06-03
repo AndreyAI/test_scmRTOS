@@ -1,0 +1,4 @@
+recursive_mutex.cpp:48:6:void OS::TRecursiveMutex::lock()	16	static
+recursive_mutex.cpp:74:6:void OS::TRecursiveMutex::unlock()	8	static
+recursive_mutex.cpp:90:6:bool OS::TRecursiveMutex::try_lock()	8	static
+recursive_mutex.cpp:104:6:bool OS::TRecursiveMutex::try_lock(timeout_t)	24	static

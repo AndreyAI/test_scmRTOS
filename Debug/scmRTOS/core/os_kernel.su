@@ -1,0 +1,10 @@
+os_kernel.cpp:230:21:static void OS::process<pr, stk_size, pss>::exec() [with OS::TPriority pr = (OS::TPriority)0u; unsigned int stk_size = 400u; OS::TProcessStartState pss = (OS::TProcessStartState)0u]	0	static
+os_kernel.cpp:76:6:void OS::TKernel::sched()	0	static
+os_kernel.cpp:94:15:stack_item_t* os_context_switch_hook(stack_item_t*)	0	static
+os_kernel.cpp:110:1:OS::TBaseProcess::TBaseProcess(stack_item_t*, OS::TPriority, void (*)(), stack_item_t*, const char*)	16	static
+os_kernel.cpp:254:1:void __static_initialization_and_destruction_0(int, int)	16	static
+os_kernel.cpp:178:6:static void OS::TBaseProcess::sleep(timeout_t)	8	static
+os_kernel.cpp:187:6:void OS::TBaseProcess::wake_up()	8	static
+os_kernel.cpp:199:6:void OS::TBaseProcess::force_wake_up()	8	static
+os_kernel.cpp:247:8:size_t OS::TBaseProcess::stack_slack() const	0	static
+os_kernel.cpp:254:1:cpp)	8	static

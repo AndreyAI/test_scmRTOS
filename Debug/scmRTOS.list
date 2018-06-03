@@ -1,0 +1,1304 @@
+
+scmRTOS.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000770  08000188  08000188  00010188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       0000000c  080008f8  080008f8  000108f8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .init_array   0000000c  08000904  08000904  00010904  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .fini_array   00000004  08000910  08000910  00010910  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .data         00000004  20000000  08000914  00020000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .ccmram       00000000  10000000  10000000  00020004  2**0
+                  CONTENTS
+  7 .bss          00000480  20000004  20000004  00020004  2**2
+                  ALLOC
+  8 ._user_heap_stack 00000400  20000484  20000484  00020004  2**0
+                  ALLOC
+  9 .ARM.attributes 00000030  00000000  00000000  00020004  2**0
+                  CONTENTS, READONLY
+ 10 .debug_info   000074f3  00000000  00000000  00020034  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_abbrev 00001bbf  00000000  00000000  00027527  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_loc    000018f1  00000000  00000000  000290e6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_aranges 000001f0  00000000  00000000  0002a9d7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_ranges 00000478  00000000  00000000  0002abc7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_line   000017d2  00000000  00000000  0002b03f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .debug_str    000024fc  00000000  00000000  0002c811  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 17 .comment      0000007c  00000000  00000000  0002ed0d  2**0
+                  CONTENTS, READONLY
+ 18 .debug_frame  000004a0  00000000  00000000  0002ed8c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .stabstr      0000003f  00000000  00000000  0002f22c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	; (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	; (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	; (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000004 	.word	0x20000004
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	080008e0 	.word	0x080008e0
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	; (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	; (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	; (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000008 	.word	0x20000008
+ 80001c4:	080008e0 	.word	0x080008e0
+
+080001c8 <_ZN2OS7processILNS_9TPriorityE0ELj400ELNS_18TProcessStartStateE0EE4execEv>:
+}
+
+namespace OS
+{
+    template<> void TIdleProc::exec()
+    {
+ 80001c8:	e7fe      	b.n	80001c8 <_ZN2OS7processILNS_9TPriorityE0ELj400ELNS_18TProcessStartStateE0EE4execEv>
+	...
+
+080001cc <_ZN2OS7TKernel5schedEv>:
+    uint_fast8_t NextPrty = highest_priority(ReadyProcessMap);
+ 80001cc:	6843      	ldr	r3, [r0, #4]
+        #endif  // scmRTOS_PROCESS_COUNT < 6
+    }
+#else
+    INLINE uint_fast8_t highest_priority(TProcessMap pm)
+    {
+        return 31 - __builtin_clz(pm);
+ 80001ce:	fab3 f383 	clz	r3, r3
+ 80001d2:	f1c3 031f 	rsb	r3, r3, #31
+    if(NextPrty != CurProcPriority)
+ 80001d6:	6802      	ldr	r2, [r0, #0]
+ 80001d8:	429a      	cmp	r2, r3
+ 80001da:	d00c      	beq.n	80001f6 <_ZN2OS7TKernel5schedEv+0x2a>
+        SchedProcPriority = NextPrty;
+ 80001dc:	60c3      	str	r3, [r0, #12]
+namespace OS
+{
+#if scmRTOS_CONTEXT_SWITCH_SCHEME == 1
+
+// 0xE000ED04 - Interrupt Control State Register
+INLINE void raise_context_switch() { *((volatile uint32_t*)0xE000ED04) |= 0x10000000; }
+ 80001de:	4a06      	ldr	r2, [pc, #24]	; (80001f8 <_ZN2OS7TKernel5schedEv+0x2c>)
+ 80001e0:	6813      	ldr	r3, [r2, #0]
+ 80001e2:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 80001e6:	6013      	str	r3, [r2, #0]
+    INLINE void enable_context_switch()  { enable_interrupts(); }
+ 80001e8:	b662      	cpsie	i
+            DUMMY_INSTR();
+ 80001ea:	bf00      	nop
+    INLINE void disable_context_switch() { disable_interrupts(); }
+ 80001ec:	b672      	cpsid	i
+        while(CurProcPriority != SchedProcPriority); // until context switch done
+ 80001ee:	6802      	ldr	r2, [r0, #0]
+ 80001f0:	68c3      	ldr	r3, [r0, #12]
+        do
+ 80001f2:	429a      	cmp	r2, r3
+ 80001f4:	d1f8      	bne.n	80001e8 <_ZN2OS7TKernel5schedEv+0x1c>
+ 80001f6:	4770      	bx	lr
+ 80001f8:	e000ed04 	.word	0xe000ed04
+
+080001fc <os_context_switch_hook>:
+
+stack_item_t* OS::TKernel::context_switch_hook(stack_item_t* sp)
+{
+    CONTEXT_SWITCH_HOOK_CRIT_SECT();
+
+    ProcessTable[CurProcPriority]->StackPointer = sp;
+ 80001fc:	4b06      	ldr	r3, [pc, #24]	; (8000218 <os_context_switch_hook+0x1c>)
+ 80001fe:	6819      	ldr	r1, [r3, #0]
+ 8000200:	4a06      	ldr	r2, [pc, #24]	; (800021c <os_context_switch_hook+0x20>)
+ 8000202:	f852 1021 	ldr.w	r1, [r2, r1, lsl #2]
+ 8000206:	6008      	str	r0, [r1, #0]
+    sp = ProcessTable[SchedProcPriority]->StackPointer;
+ 8000208:	68d9      	ldr	r1, [r3, #12]
+ 800020a:	f852 2021 	ldr.w	r2, [r2, r1, lsl #2]
+ 800020e:	6810      	ldr	r0, [r2, #0]
+    
+#if scmRTOS_CONTEXT_SWITCH_USER_HOOK_ENABLE == 1
+    context_switch_user_hook();
+#endif
+
+    CurProcPriority = SchedProcPriority;
+ 8000210:	68da      	ldr	r2, [r3, #12]
+ 8000212:	601a      	str	r2, [r3, #0]
+stack_item_t* os_context_switch_hook(stack_item_t* sp) { return Kernel.context_switch_hook(sp); }
+ 8000214:	4770      	bx	lr
+ 8000216:	bf00      	nop
+ 8000218:	20000020 	.word	0x20000020
+ 800021c:	20000034 	.word	0x20000034
+
+08000220 <_ZN2OS12TBaseProcessC1EPmNS_9TPriorityEPFvvES1_PKc>:
+TBaseProcess::TBaseProcess( stack_item_t * StackPoolEnd
+ 8000220:	b570      	push	{r4, r5, r6, lr}
+ 8000222:	4604      	mov	r4, r0
+ 8000224:	461e      	mov	r6, r3
+ 8000226:	9b04      	ldr	r3, [sp, #16]
+                            , Name(name_str)
+ 8000228:	2500      	movs	r5, #0
+ 800022a:	8085      	strh	r5, [r0, #4]
+ 800022c:	7182      	strb	r2, [r0, #6]
+ 800022e:	6085      	str	r5, [r0, #8]
+ 8000230:	60c3      	str	r3, [r0, #12]
+                            , StackSize(StackPoolEnd - aStackPool)
+ 8000232:	1acd      	subs	r5, r1, r3
+ 8000234:	10ad      	asrs	r5, r5, #2
+                            , Name(name_str)
+ 8000236:	6105      	str	r5, [r0, #16]
+ 8000238:	9d05      	ldr	r5, [sp, #20]
+ 800023a:	6145      	str	r5, [r0, #20]
+    Kernel.ProcessTable[p->Priority] = p;
+ 800023c:	4d03      	ldr	r5, [pc, #12]	; (800024c <_ZN2OS12TBaseProcessC1EPmNS_9TPriorityEPFvvES1_PKc+0x2c>)
+ 800023e:	f845 0022 	str.w	r0, [r5, r2, lsl #2]
+                    );
+ 8000242:	4632      	mov	r2, r6
+ 8000244:	f000 f880 	bl	8000348 <_ZN2OS12TBaseProcess16init_stack_frameEPmPFvvES1_>
+}
+ 8000248:	4620      	mov	r0, r4
+ 800024a:	bd70      	pop	{r4, r5, r6, pc}
+ 800024c:	20000034 	.word	0x20000034
+
+08000250 <_Z41__static_initialization_and_destruction_0ii>:
+     size_t slack = 0;
+     const stack_item_t * Stack = StackPool;
+     while (*Stack++ == scmRTOS_STACK_PATTERN)
+         slack++;
+     return slack;
+}
+ 8000250:	2801      	cmp	r0, #1
+ 8000252:	d000      	beq.n	8000256 <_Z41__static_initialization_and_destruction_0ii+0x6>
+ 8000254:	4770      	bx	lr
+ 8000256:	f64f 73ff 	movw	r3, #65535	; 0xffff
+ 800025a:	4299      	cmp	r1, r3
+ 800025c:	d1fa      	bne.n	8000254 <_Z41__static_initialization_and_destruction_0ii+0x4>
+ 800025e:	b500      	push	{lr}
+ 8000260:	b083      	sub	sp, #12
+                     , ISR_NestCount(0)
+ 8000262:	4b0a      	ldr	r3, [pc, #40]	; (800028c <_Z41__static_initialization_and_destruction_0ii+0x3c>)
+ 8000264:	2220      	movs	r2, #32
+ 8000266:	601a      	str	r2, [r3, #0]
+ 8000268:	2207      	movs	r2, #7
+ 800026a:	605a      	str	r2, [r3, #4]
+ 800026c:	2200      	movs	r2, #0
+ 800026e:	609a      	str	r2, [r3, #8]
+                             )
+ 8000270:	4807      	ldr	r0, [pc, #28]	; (8000290 <_Z41__static_initialization_and_destruction_0ii+0x40>)
+ 8000272:	4b08      	ldr	r3, [pc, #32]	; (8000294 <_Z41__static_initialization_and_destruction_0ii+0x44>)
+ 8000274:	9301      	str	r3, [sp, #4]
+ 8000276:	f100 0318 	add.w	r3, r0, #24
+ 800027a:	9300      	str	r3, [sp, #0]
+ 800027c:	4b06      	ldr	r3, [pc, #24]	; (8000298 <_Z41__static_initialization_and_destruction_0ii+0x48>)
+ 800027e:	f500 71d4 	add.w	r1, r0, #424	; 0x1a8
+ 8000282:	f7ff ffcd 	bl	8000220 <_ZN2OS12TBaseProcessC1EPmNS_9TPriorityEPFvvES1_PKc>
+ 8000286:	b003      	add	sp, #12
+ 8000288:	f85d fb04 	ldr.w	pc, [sp], #4
+ 800028c:	20000020 	.word	0x20000020
+ 8000290:	20000040 	.word	0x20000040
+ 8000294:	080008f8 	.word	0x080008f8
+ 8000298:	080001c9 	.word	0x080001c9
+
+0800029c <_GLOBAL__sub_I__ZN2OS6KernelE>:
+ 800029c:	b508      	push	{r3, lr}
+ 800029e:	f64f 71ff 	movw	r1, #65535	; 0xffff
+ 80002a2:	2001      	movs	r0, #1
+ 80002a4:	f7ff ffd4 	bl	8000250 <_Z41__static_initialization_and_destruction_0ii>
+ 80002a8:	bd08      	pop	{r3, pc}
+	...
+
+080002ac <_ZN2OS10TEventFlag4waitEt>:
+//
+//      TEventFlag
+//
+//
+bool OS::TEventFlag::wait(timeout_t timeout)
+{
+ 80002ac:	b530      	push	{r4, r5, lr}
+ 80002ae:	b083      	sub	sp, #12
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 80002b0:	f3ef 8310 	mrs	r3, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 80002b4:	9301      	str	r3, [sp, #4]
+ 80002b6:	b672      	cpsid	i
+    TCritSect cs;
+
+    if(Value)                                           // if flag already signaled
+ 80002b8:	7903      	ldrb	r3, [r0, #4]
+ 80002ba:	2b00      	cmp	r3, #0
+ 80002bc:	d12f      	bne.n	800031e <_ZN2OS10TEventFlag4waitEt+0x72>
+ 80002be:	4604      	mov	r4, r0
+        INLINE static TBaseProcess * cur_proc()                        { return Kernel.ProcessTable[cur_proc_priority()]; }
+ 80002c0:	4b1f      	ldr	r3, [pc, #124]	; (8000340 <_ZN2OS10TEventFlag4waitEt+0x94>)
+ 80002c2:	681d      	ldr	r5, [r3, #0]
+ 80002c4:	481f      	ldr	r0, [pc, #124]	; (8000344 <_ZN2OS10TEventFlag4waitEt+0x98>)
+ 80002c6:	f850 2025 	ldr.w	r2, [r0, r5, lsl #2]
+        Value = efOff;                                  // clear flag
+        return true;
+    }
+    else
+    {
+        cur_proc_timeout() = timeout;
+ 80002ca:	8091      	strh	r1, [r2, #4]
+INLINE OS::TProcessMap get_prio_tag(const uint_fast8_t pr) { return static_cast<OS::TProcessMap> (1 << pr); }
+ 80002cc:	2201      	movs	r2, #1
+ 80002ce:	40aa      	lsls	r2, r5
+    INLINE void set_prio_tag(volatile TProcessMap & pm, const TProcessMap PrioTag) { pm |=  PrioTag; }
+ 80002d0:	6821      	ldr	r1, [r4, #0]
+ 80002d2:	4311      	orrs	r1, r2
+ 80002d4:	6021      	str	r1, [r4, #0]
+    INLINE void clr_prio_tag(volatile TProcessMap & pm, const TProcessMap PrioTag) { pm &= ~static_cast<unsigned>(PrioTag); }
+ 80002d6:	6859      	ldr	r1, [r3, #4]
+ 80002d8:	ea21 0202 	bic.w	r2, r1, r2
+ 80002dc:	605a      	str	r2, [r3, #4]
+        INLINE static TBaseProcess * cur_proc()                        { return Kernel.ProcessTable[cur_proc_priority()]; }
+ 80002de:	681a      	ldr	r2, [r3, #0]
+ 80002e0:	f850 2022 	ldr.w	r2, [r0, r2, lsl #2]
+    
+        set_prio_tag(waiters_map, PrioTag);                   // put current process to wait map
+        clr_prio_tag(ready_process_map(), PrioTag);           // remove current process from ready map
+    
+    #if scmRTOS_DEBUG_ENABLE == 1
+        cur_proc_waiting_for() = this;                        // catch current service address to process debug data
+ 80002e4:	6094      	str	r4, [r2, #8]
+        INLINE void scheduler() { if(ISR_NestCount) return; else  sched(); }
+ 80002e6:	689b      	ldr	r3, [r3, #8]
+ 80002e8:	b30b      	cbz	r3, 800032e <_ZN2OS10TEventFlag4waitEt+0x82>
+        INLINE static TBaseProcess * cur_proc()                        { return Kernel.ProcessTable[cur_proc_priority()]; }
+ 80002ea:	4b15      	ldr	r3, [pc, #84]	; (8000340 <_ZN2OS10TEventFlag4waitEt+0x94>)
+ 80002ec:	681a      	ldr	r2, [r3, #0]
+ 80002ee:	4b15      	ldr	r3, [pc, #84]	; (8000344 <_ZN2OS10TEventFlag4waitEt+0x98>)
+ 80002f0:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
+    #endif
+        
+        reschedule();
+        
+    #if scmRTOS_DEBUG_ENABLE == 1
+        cur_proc_waiting_for() = 0;                           // remove current service address from process debug data
+ 80002f4:	2100      	movs	r1, #0
+ 80002f6:	6099      	str	r1, [r3, #8]
+ 80002f8:	2301      	movs	r3, #1
+ 80002fa:	4093      	lsls	r3, r2
+    //--------------------------------------------------------------------------
+    bool OS::TService::is_timeouted(TProcessMap volatile & waiters_map)
+    {
+        TProcessMap PrioTag = cur_proc_prio_tag();
+
+        TProcessMap CachedMap = waiters_map;                // cache volatile, code runs in critical section
+ 80002fc:	6822      	ldr	r2, [r4, #0]
+        if( CachedMap & PrioTag )                           // if waked up by timeout or by
+ 80002fe:	4213      	tst	r3, r2
+ 8000300:	d019      	beq.n	8000336 <_ZN2OS10TEventFlag4waitEt+0x8a>
+    INLINE void clr_prio_tag(TProcessMap & pm, const TProcessMap PrioTag) { pm &= ~static_cast<unsigned>(PrioTag); }
+ 8000302:	ea22 0303 	bic.w	r3, r2, r3
+                                                            // OS::TBaseProcess::wake_up() | force_wake_up()
+        {
+            clr_prio_tag(CachedMap, PrioTag);               // remove process from the wait map
+            waiters_map = CachedMap;
+ 8000306:	6023      	str	r3, [r4, #0]
+            return true;
+ 8000308:	2301      	movs	r3, #1
+
+        suspend(ProcessMap);
+
+        if(is_timeouted(ProcessMap))
+ 800030a:	b9b3      	cbnz	r3, 800033a <_ZN2OS10TEventFlag4waitEt+0x8e>
+        INLINE static TBaseProcess * cur_proc()                        { return Kernel.ProcessTable[cur_proc_priority()]; }
+ 800030c:	4b0c      	ldr	r3, [pc, #48]	; (8000340 <_ZN2OS10TEventFlag4waitEt+0x94>)
+ 800030e:	681a      	ldr	r2, [r3, #0]
+ 8000310:	4b0c      	ldr	r3, [pc, #48]	; (8000344 <_ZN2OS10TEventFlag4waitEt+0x98>)
+ 8000312:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
+            return false;                               // waked up by timeout or by externals
+
+        cur_proc_timeout() = 0;
+ 8000316:	2200      	movs	r2, #0
+ 8000318:	809a      	strh	r2, [r3, #4]
+        return true;                                    // otherwise waked up by signal() or signal_isr()
+ 800031a:	2001      	movs	r0, #1
+ 800031c:	e002      	b.n	8000324 <_ZN2OS10TEventFlag4waitEt+0x78>
+        Value = efOff;                                  // clear flag
+ 800031e:	2300      	movs	r3, #0
+ 8000320:	7103      	strb	r3, [r0, #4]
+        return true;
+ 8000322:	2001      	movs	r0, #1
+    ~TCritSect() { set_interrupt_state(StatusReg); }
+ 8000324:	9b01      	ldr	r3, [sp, #4]
+    );
+ 8000326:	f383 8810 	msr	PRIMASK, r3
+    }
+}
+ 800032a:	b003      	add	sp, #12
+ 800032c:	bd30      	pop	{r4, r5, pc}
+        INLINE void scheduler() { if(ISR_NestCount) return; else  sched(); }
+ 800032e:	4804      	ldr	r0, [pc, #16]	; (8000340 <_ZN2OS10TEventFlag4waitEt+0x94>)
+ 8000330:	f7ff ff4c 	bl	80001cc <_ZN2OS7TKernel5schedEv>
+ 8000334:	e7d9      	b.n	80002ea <_ZN2OS10TEventFlag4waitEt+0x3e>
+        }
+        return false;
+ 8000336:	2300      	movs	r3, #0
+ 8000338:	e7e7      	b.n	800030a <_ZN2OS10TEventFlag4waitEt+0x5e>
+            return false;                               // waked up by timeout or by externals
+ 800033a:	2000      	movs	r0, #0
+ 800033c:	e7f2      	b.n	8000324 <_ZN2OS10TEventFlag4waitEt+0x78>
+ 800033e:	bf00      	nop
+ 8000340:	20000020 	.word	0x20000020
+ 8000344:	20000034 	.word	0x20000034
+
+08000348 <_ZN2OS12TBaseProcess16init_stack_frameEPmPFvvES1_>:
+                                   , void (*exec)()
+                                #if scmRTOS_DEBUG_ENABLE == 1
+                                   , stack_item_t * StackBegin
+                                #endif
+                                   )
+{
+ 8000348:	b410      	push	{r4}
+    /*
+     * ARM Architecture Procedure Call Standard [AAPCS] requires 8-byte stack alignment.
+     * This means that we must get top of stack aligned _after_ context "pushing", at
+     * interrupt entry.
+     */
+    uintptr_t sptr = (((uintptr_t)Stack - CONTEXT_SIZE) & 0xFFFFFFF8UL) + CONTEXT_SIZE;
+ 800034a:	3944      	subs	r1, #68	; 0x44
+ 800034c:	f021 0107 	bic.w	r1, r1, #7
+    StackPointer = (stack_item_t*)sptr;
+
+    *(--StackPointer)  = 0x01000000UL;      // xPSR
+ 8000350:	f101 0440 	add.w	r4, r1, #64	; 0x40
+ 8000354:	6004      	str	r4, [r0, #0]
+ 8000356:	f04f 7480 	mov.w	r4, #16777216	; 0x1000000
+ 800035a:	640c      	str	r4, [r1, #64]	; 0x40
+    *(--StackPointer)  = reinterpret_cast<stack_item_t>(exec); // Entry Point
+ 800035c:	6801      	ldr	r1, [r0, #0]
+ 800035e:	1f0c      	subs	r4, r1, #4
+ 8000360:	6004      	str	r4, [r0, #0]
+ 8000362:	f841 2c04 	str.w	r2, [r1, #-4]
+#if (defined __SOFTFP__)    // core without FPU
+    StackPointer -= 14;                     // emulate "push LR,R12,R3,R2,R1,R0,R11-R4"
+#else                       // core with FPU
+    StackPointer -= 6;                      // emulate "push LR,R12,R3,R2,R1,R0"
+ 8000366:	6802      	ldr	r2, [r0, #0]
+    *(--StackPointer)  = 0xFFFFFFFDUL;      // exc_return: Return to Thread mode, floating-point context inactive, execution uses PSP after return.
+ 8000368:	f1a2 011c 	sub.w	r1, r2, #28
+ 800036c:	6001      	str	r1, [r0, #0]
+ 800036e:	f06f 0102 	mvn.w	r1, #2
+ 8000372:	f842 1c1c 	str.w	r1, [r2, #-28]
+    StackPointer -= 8;                      // emulate "push R4-R11"
+ 8000376:	6802      	ldr	r2, [r0, #0]
+ 8000378:	f1a2 0120 	sub.w	r1, r2, #32
+ 800037c:	6001      	str	r1, [r0, #0]
+#endif
+#if scmRTOS_DEBUG_ENABLE == 1
+    *(StackPointer)  = reinterpret_cast<stack_item_t>(&DebugInfo); // dummy load to keep 'DebugInfo' in output binary
+ 800037e:	4907      	ldr	r1, [pc, #28]	; (800039c <_ZN2OS12TBaseProcess16init_stack_frameEPmPFvvES1_+0x54>)
+ 8000380:	f842 1c20 	str.w	r1, [r2, #-32]
+
+    for (stack_item_t *pDst = StackBegin; pDst < StackPointer; pDst++)
+ 8000384:	6802      	ldr	r2, [r0, #0]
+ 8000386:	4293      	cmp	r3, r2
+ 8000388:	d204      	bcs.n	8000394 <_ZN2OS12TBaseProcess16init_stack_frameEPmPFvvES1_+0x4c>
+        *pDst = STACK_DEFAULT_PATTERN;
+ 800038a:	f64a 32ba 	movw	r2, #43962	; 0xabba
+ 800038e:	f843 2b04 	str.w	r2, [r3], #4
+    for (stack_item_t *pDst = StackBegin; pDst < StackPointer; pDst++)
+ 8000392:	e7f7      	b.n	8000384 <_ZN2OS12TBaseProcess16init_stack_frameEPmPFvvES1_+0x3c>
+#endif // scmRTOS_DEBUG_ENABLE
+}
+ 8000394:	f85d 4b04 	ldr.w	r4, [sp], #4
+ 8000398:	4770      	bx	lr
+ 800039a:	bf00      	nop
+ 800039c:	08000900 	.word	0x08000900
+
+080003a0 <PendSV_Handler>:
+        "    VLDMIAEQ  R0!, {S16-S31}    \n" // if so - restore it.
+        "    MSR       PSP, R0           \n" // Load PSP with new process SP
+        "    CPSIE     I                 \n"
+        "    BX        LR                \n" // Return to saved exc_return. Exception return will restore remaining context
+        : :
+    );
+ 80003a0:	b672      	cpsid	i
+ 80003a2:	f3ef 8009 	mrs	r0, PSP
+ 80003a6:	f01e 0f10 	tst.w	lr, #16
+ 80003aa:	bf08      	it	eq
+ 80003ac:	ed20 8a10 	vstmdbeq	r0!, {s16-s31}
+ 80003b0:	e920 4ff0 	stmdb	r0!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 80003b4:	4906      	ldr	r1, [pc, #24]	; (80003d0 <PendSV_Handler+0x30>)
+ 80003b6:	4788      	blx	r1
+ 80003b8:	e8b0 4ff0 	ldmia.w	r0!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 80003bc:	f01e 0f10 	tst.w	lr, #16
+ 80003c0:	bf08      	it	eq
+ 80003c2:	ecb0 8a10 	vldmiaeq	r0!, {s16-s31}
+ 80003c6:	f380 8809 	msr	PSP, r0
+ 80003ca:	b662      	cpsie	i
+ 80003cc:	4770      	bx	lr
+ 80003ce:	0000      	.short	0x0000
+ 80003d0:	080001fd 	.word	0x080001fd
+
+080003d4 <SysTick_Handler>:
+/*
+ * System timer stuff.
+ */
+#if (SCMRTOS_USE_CUSTOM_TIMER == 0)
+OS_INTERRUPT void SysTick_Handler()
+{
+ 80003d4:	b410      	push	{r4}
+ 80003d6:	b083      	sub	sp, #12
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 80003d8:	f3ef 8210 	mrs	r2, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 80003dc:	b672      	cpsid	i
+private:
+    //-----------------------------------------------------
+    INLINE void ISR_Enter()
+    {
+        TCritSect cs;
+        Kernel.ISR_NestCount++;
+ 80003de:	4b25      	ldr	r3, [pc, #148]	; (8000474 <SysTick_Handler+0xa0>)
+ 80003e0:	6899      	ldr	r1, [r3, #8]
+ 80003e2:	3101      	adds	r1, #1
+ 80003e4:	6099      	str	r1, [r3, #8]
+    );
+ 80003e6:	f382 8810 	msr	PRIMASK, r2
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 80003ea:	f3ef 8010 	mrs	r0, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 80003ee:	b672      	cpsid	i
+    SysTickCount++;
+ 80003f0:	691a      	ldr	r2, [r3, #16]
+ 80003f2:	3201      	adds	r2, #1
+ 80003f4:	611a      	str	r2, [r3, #16]
+    for(uint_fast8_t i = BaseIndex; i < (PROCESS_COUNT - 1 + BaseIndex); i++)
+ 80003f6:	2201      	movs	r2, #1
+ 80003f8:	e000      	b.n	80003fc <SysTick_Handler+0x28>
+ 80003fa:	3201      	adds	r2, #1
+ 80003fc:	2a02      	cmp	r2, #2
+ 80003fe:	d815      	bhi.n	800042c <SysTick_Handler+0x58>
+        TBaseProcess* p = ProcessTable[i];
+ 8000400:	4b1d      	ldr	r3, [pc, #116]	; (8000478 <SysTick_Handler+0xa4>)
+ 8000402:	f853 1022 	ldr.w	r1, [r3, r2, lsl #2]
+        if(p->Timeout > 0)
+ 8000406:	888b      	ldrh	r3, [r1, #4]
+ 8000408:	b29b      	uxth	r3, r3
+ 800040a:	2b00      	cmp	r3, #0
+ 800040c:	d0f5      	beq.n	80003fa <SysTick_Handler+0x26>
+            if(--p->Timeout == 0)
+ 800040e:	888b      	ldrh	r3, [r1, #4]
+ 8000410:	b29b      	uxth	r3, r3
+ 8000412:	3b01      	subs	r3, #1
+ 8000414:	b29b      	uxth	r3, r3
+ 8000416:	808b      	strh	r3, [r1, #4]
+ 8000418:	2b00      	cmp	r3, #0
+ 800041a:	d1ee      	bne.n	80003fa <SysTick_Handler+0x26>
+                set_process_ready(p->Priority);
+ 800041c:	7989      	ldrb	r1, [r1, #6]
+INLINE OS::TProcessMap get_prio_tag(const uint_fast8_t pr) { return static_cast<OS::TProcessMap> (1 << pr); }
+ 800041e:	2301      	movs	r3, #1
+ 8000420:	408b      	lsls	r3, r1
+    INLINE void set_prio_tag(volatile TProcessMap & pm, const TProcessMap PrioTag) { pm |=  PrioTag; }
+ 8000422:	4914      	ldr	r1, [pc, #80]	; (8000474 <SysTick_Handler+0xa0>)
+ 8000424:	684c      	ldr	r4, [r1, #4]
+ 8000426:	4323      	orrs	r3, r4
+ 8000428:	604b      	str	r3, [r1, #4]
+ 800042a:	e7e6      	b.n	80003fa <SysTick_Handler+0x26>
+    );
+ 800042c:	f380 8810 	msr	PRIMASK, r0
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 8000430:	f3ef 8110 	mrs	r1, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 8000434:	9101      	str	r1, [sp, #4]
+ 8000436:	b672      	cpsid	i
+    }
+    //-----------------------------------------------------
+    INLINE void ISR_Exit()
+    {
+        TCritSect cs;
+        if(--Kernel.ISR_NestCount) return;
+ 8000438:	4a0e      	ldr	r2, [pc, #56]	; (8000474 <SysTick_Handler+0xa0>)
+ 800043a:	6893      	ldr	r3, [r2, #8]
+ 800043c:	3b01      	subs	r3, #1
+ 800043e:	6093      	str	r3, [r2, #8]
+ 8000440:	b9ab      	cbnz	r3, 800046e <SysTick_Handler+0x9a>
+    uint_fast8_t NextPrty = highest_priority(ReadyProcessMap);
+ 8000442:	6853      	ldr	r3, [r2, #4]
+        return 31 - __builtin_clz(pm);
+ 8000444:	fab3 f383 	clz	r3, r3
+ 8000448:	f1c3 031f 	rsb	r3, r3, #31
+    if(NextPrty != CurProcPriority)
+ 800044c:	6812      	ldr	r2, [r2, #0]
+ 800044e:	4293      	cmp	r3, r2
+ 8000450:	d006      	beq.n	8000460 <SysTick_Handler+0x8c>
+        SchedProcPriority = NextPrty;
+ 8000452:	4a08      	ldr	r2, [pc, #32]	; (8000474 <SysTick_Handler+0xa0>)
+ 8000454:	60d3      	str	r3, [r2, #12]
+INLINE void raise_context_switch() { *((volatile uint32_t*)0xE000ED04) |= 0x10000000; }
+ 8000456:	4a09      	ldr	r2, [pc, #36]	; (800047c <SysTick_Handler+0xa8>)
+ 8000458:	6813      	ldr	r3, [r2, #0]
+ 800045a:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 800045e:	6013      	str	r3, [r2, #0]
+    ~TCritSect() { set_interrupt_state(StatusReg); }
+ 8000460:	9b01      	ldr	r3, [sp, #4]
+    );
+ 8000462:	f383 8810 	msr	PRIMASK, r3
+    system_timer_isr();
+}
+ 8000466:	b003      	add	sp, #12
+ 8000468:	f85d 4b04 	ldr.w	r4, [sp], #4
+ 800046c:	4770      	bx	lr
+ 800046e:	f381 8810 	msr	PRIMASK, r1
+ 8000472:	e7f8      	b.n	8000466 <SysTick_Handler+0x92>
+ 8000474:	20000020 	.word	0x20000020
+ 8000478:	20000034 	.word	0x20000034
+ 800047c:	e000ed04 	.word	0xe000ed04
+
+08000480 <__init_system_timer>:
+    type operator=(type value) { *(volatile type*)addr = value; return value; }
+ 8000480:	22e0      	movs	r2, #224	; 0xe0
+ 8000482:	4b04      	ldr	r3, [pc, #16]	; (8000494 <__init_system_timer+0x14>)
+ 8000484:	701a      	strb	r2, [r3, #0]
+#if (defined SHP3_WORD_ACCESS)   // word access
+    SHPR3 = (SHPR3 & ~(0xFF << 24)) | (SYS_TIMER_PRIORITY << 24);
+#else
+    SysTickPriority = SYS_TIMER_PRIORITY;
+#endif
+    SysTickRegisters->LOAD = SYSTICKFREQ/SYSTICKINTRATE-1;
+ 8000486:	f6a3 5313 	subw	r3, r3, #3347	; 0xd13
+ 800048a:	4a03      	ldr	r2, [pc, #12]	; (8000498 <__init_system_timer+0x18>)
+ 800048c:	605a      	str	r2, [r3, #4]
+    SysTickRegisters->CTRL = NVIC_ST_CTRL_CLK_SRC | NVIC_ST_CTRL_INTEN | NVIC_ST_CTRL_ENABLE;
+ 800048e:	2207      	movs	r2, #7
+ 8000490:	601a      	str	r2, [r3, #0]
+ 8000492:	4770      	bx	lr
+ 8000494:	e000ed23 	.word	0xe000ed23
+ 8000498:	0002903f 	.word	0x0002903f
+
+0800049c <os_start>:
+    type operator=(type value) { *(volatile type*)addr = value; return value; }
+ 800049c:	22ff      	movs	r2, #255	; 0xff
+ 800049e:	4b0b      	ldr	r3, [pc, #44]	; (80004cc <os_start+0x30>)
+ 80004a0:	701a      	strb	r2, [r3, #0]
+    void operator|=(type value) { *(volatile type*)addr |= value; }
+ 80004a2:	4a0b      	ldr	r2, [pc, #44]	; (80004d0 <os_start+0x34>)
+ 80004a4:	6813      	ldr	r3, [r2, #0]
+ 80004a6:	f043 4340 	orr.w	r3, r3, #3221225472	; 0xc0000000
+ 80004aa:	6013      	str	r3, [r2, #0]
+        "    LDR     R1, =__init_system_timer  \n" //
+        "    BLX     R1                        \n" //
+        "    CPSIE   I                         \n" // Enable interrupts at processor level
+        "    BX      R4                        \n" // Jump to process exec() function
+        : [stack]"+r" (sp)  // output
+    );
+ 80004ac:	6bc4      	ldr	r4, [r0, #60]	; 0x3c
+ 80004ae:	f100 0044 	add.w	r0, r0, #68	; 0x44
+ 80004b2:	f380 8809 	msr	PSP, r0
+ 80004b6:	f04f 0002 	mov.w	r0, #2
+ 80004ba:	f380 8814 	msr	CONTROL, r0
+ 80004be:	f3bf 8f6f 	isb	sy
+ 80004c2:	4904      	ldr	r1, [pc, #16]	; (80004d4 <os_start+0x38>)
+ 80004c4:	4788      	blx	r1
+ 80004c6:	b662      	cpsie	i
+ 80004c8:	4720      	bx	r4
+ 80004ca:	bf00      	nop
+ 80004cc:	e000ed22 	.word	0xe000ed22
+ 80004d0:	e000ef34 	.word	0xe000ef34
+ 80004d4:	08000481 	.word	0x08000481
+
+080004d8 <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv>:
+
+namespace OS
+{
+    template <>
+    OS_PROCESS void TProc0::exec()
+    {
+ 80004d8:	b508      	push	{r3, lr}
+        for(;;)
+        {	//sleep(1000);
+        	_ev.wait();
+ 80004da:	2100      	movs	r1, #0
+ 80004dc:	4804      	ldr	r0, [pc, #16]	; (80004f0 <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv+0x18>)
+ 80004de:	f7ff fee5 	bl	80002ac <_ZN2OS10TEventFlag4waitEt>
+        	GPIOA->BSRRH |= GPIO_Pin_5;//GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+ 80004e2:	4a04      	ldr	r2, [pc, #16]	; (80004f4 <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv+0x1c>)
+ 80004e4:	8b53      	ldrh	r3, [r2, #26]
+ 80004e6:	b29b      	uxth	r3, r3
+ 80004e8:	f043 0320 	orr.w	r3, r3, #32
+ 80004ec:	8353      	strh	r3, [r2, #26]
+ 80004ee:	e7f4      	b.n	80004da <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv+0x2>
+ 80004f0:	20000470 	.word	0x20000470
+ 80004f4:	40020000 	.word	0x40020000
+
+080004f8 <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv>:
+        	//sleep(1000);
+        }
+    }
+    template <>
+    OS_PROCESS void TProc1::exec()
+        {
+ 80004f8:	b508      	push	{r3, lr}
+            for(;;)
+            {
+            	//sleep(1000);
+            	_ev1.wait();
+ 80004fa:	2100      	movs	r1, #0
+ 80004fc:	4804      	ldr	r0, [pc, #16]	; (8000510 <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv+0x18>)
+ 80004fe:	f7ff fed5 	bl	80002ac <_ZN2OS10TEventFlag4waitEt>
+            	GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+ 8000502:	4a04      	ldr	r2, [pc, #16]	; (8000514 <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv+0x1c>)
+ 8000504:	8b13      	ldrh	r3, [r2, #24]
+ 8000506:	b29b      	uxth	r3, r3
+ 8000508:	f043 0320 	orr.w	r3, r3, #32
+ 800050c:	8313      	strh	r3, [r2, #24]
+ 800050e:	e7f4      	b.n	80004fa <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv+0x2>
+ 8000510:	20000478 	.word	0x20000478
+ 8000514:	40020000 	.word	0x40020000
+
+08000518 <_Z41__static_initialization_and_destruction_0ii>:
+		_ev.signal_isr();}
+	else{
+		_ev1.signal_isr();}
+	TIM2->SR &= ~TIM_SR_UIF;//(uint16_t)~TIM_FLAG_Update;//TIM_ClearFlag(TIM2, TIM_FLAG_Update);
+	//TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+}
+ 8000518:	2801      	cmp	r0, #1
+ 800051a:	d000      	beq.n	800051e <_Z41__static_initialization_and_destruction_0ii+0x6>
+ 800051c:	4770      	bx	lr
+ 800051e:	f64f 73ff 	movw	r3, #65535	; 0xffff
+ 8000522:	4299      	cmp	r1, r3
+ 8000524:	d1fa      	bne.n	800051c <_Z41__static_initialization_and_destruction_0ii+0x4>
+ 8000526:	b510      	push	{r4, lr}
+ 8000528:	b082      	sub	sp, #8
+    {
+    public:
+        enum TValue { efOn = 1, efOff= 0 };     // prefix 'ef' means: "Event Flag"
+
+    public:
+        INLINE TEventFlag(TValue init_val = efOff) : ProcessMap(0), Value(init_val) { }
+ 800052a:	4b0f      	ldr	r3, [pc, #60]	; (8000568 <_Z41__static_initialization_and_destruction_0ii+0x50>)
+ 800052c:	2400      	movs	r4, #0
+ 800052e:	601c      	str	r4, [r3, #0]
+ 8000530:	711c      	strb	r4, [r3, #4]
+ 8000532:	4b0e      	ldr	r3, [pc, #56]	; (800056c <_Z41__static_initialization_and_destruction_0ii+0x54>)
+ 8000534:	601c      	str	r4, [r3, #0]
+ 8000536:	711c      	strb	r4, [r3, #4]
+                             )
+ 8000538:	480d      	ldr	r0, [pc, #52]	; (8000570 <_Z41__static_initialization_and_destruction_0ii+0x58>)
+ 800053a:	9401      	str	r4, [sp, #4]
+ 800053c:	f100 0318 	add.w	r3, r0, #24
+ 8000540:	9300      	str	r3, [sp, #0]
+ 8000542:	4b0c      	ldr	r3, [pc, #48]	; (8000574 <_Z41__static_initialization_and_destruction_0ii+0x5c>)
+ 8000544:	2202      	movs	r2, #2
+ 8000546:	f500 71a2 	add.w	r1, r0, #324	; 0x144
+ 800054a:	f7ff fe69 	bl	8000220 <_ZN2OS12TBaseProcessC1EPmNS_9TPriorityEPFvvES1_PKc>
+ 800054e:	480a      	ldr	r0, [pc, #40]	; (8000578 <_Z41__static_initialization_and_destruction_0ii+0x60>)
+ 8000550:	9401      	str	r4, [sp, #4]
+ 8000552:	f100 0318 	add.w	r3, r0, #24
+ 8000556:	9300      	str	r3, [sp, #0]
+ 8000558:	4b08      	ldr	r3, [pc, #32]	; (800057c <_Z41__static_initialization_and_destruction_0ii+0x64>)
+ 800055a:	2201      	movs	r2, #1
+ 800055c:	f500 71a2 	add.w	r1, r0, #324	; 0x144
+ 8000560:	f7ff fe5e 	bl	8000220 <_ZN2OS12TBaseProcessC1EPmNS_9TPriorityEPFvvES1_PKc>
+ 8000564:	b002      	add	sp, #8
+ 8000566:	bd10      	pop	{r4, pc}
+ 8000568:	20000470 	.word	0x20000470
+ 800056c:	20000478 	.word	0x20000478
+ 8000570:	200001e8 	.word	0x200001e8
+ 8000574:	080004d9 	.word	0x080004d9
+ 8000578:	2000032c 	.word	0x2000032c
+ 800057c:	080004f9 	.word	0x080004f9
+
+08000580 <main>:
+{
+ 8000580:	b508      	push	{r3, lr}
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;//RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+ 8000582:	4b21      	ldr	r3, [pc, #132]	; (8000608 <main+0x88>)
+ 8000584:	6b1a      	ldr	r2, [r3, #48]	; 0x30
+ 8000586:	f042 0201 	orr.w	r2, r2, #1
+ 800058a:	631a      	str	r2, [r3, #48]	; 0x30
+	RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;// RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+ 800058c:	6c1a      	ldr	r2, [r3, #64]	; 0x40
+ 800058e:	f042 0201 	orr.w	r2, r2, #1
+ 8000592:	641a      	str	r2, [r3, #64]	; 0x40
+	  GPIOA->MODER |= GPIO_MODER_MODER5_0; //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+ 8000594:	f5a3 5360 	sub.w	r3, r3, #14336	; 0x3800
+ 8000598:	681a      	ldr	r2, [r3, #0]
+ 800059a:	f442 6280 	orr.w	r2, r2, #1024	; 0x400
+ 800059e:	601a      	str	r2, [r3, #0]
+	  GPIOA->OTYPER &= ~ GPIO_OTYPER_OT_5;//GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+ 80005a0:	685a      	ldr	r2, [r3, #4]
+ 80005a2:	f022 0220 	bic.w	r2, r2, #32
+ 80005a6:	605a      	str	r2, [r3, #4]
+	  GPIOA->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR5_0; //GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+ 80005a8:	689a      	ldr	r2, [r3, #8]
+ 80005aa:	f442 6280 	orr.w	r2, r2, #1024	; 0x400
+ 80005ae:	609a      	str	r2, [r3, #8]
+	  GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+ 80005b0:	8b1a      	ldrh	r2, [r3, #24]
+ 80005b2:	b292      	uxth	r2, r2
+ 80005b4:	f042 0220 	orr.w	r2, r2, #32
+ 80005b8:	831a      	strh	r2, [r3, #24]
+	  TIM2->PSC = 42000 - 1; // Настраиваем делитель что таймер тикал 1000 раз в секунду
+ 80005ba:	f04f 4380 	mov.w	r3, #1073741824	; 0x40000000
+ 80005be:	f24a 420f 	movw	r2, #41999	; 0xa40f
+ 80005c2:	851a      	strh	r2, [r3, #40]	; 0x28
+	  TIM2->ARR = 1000 - 1; // Чтоб прерывание случалось раз в секунду
+ 80005c4:	f240 32e7 	movw	r2, #999	; 0x3e7
+ 80005c8:	62da      	str	r2, [r3, #44]	; 0x2c
+	  TIM2->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
+ 80005ca:	899a      	ldrh	r2, [r3, #12]
+ 80005cc:	b292      	uxth	r2, r2
+ 80005ce:	f042 0201 	orr.w	r2, r2, #1
+ 80005d2:	819a      	strh	r2, [r3, #12]
+	  TIM2->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
+ 80005d4:	881a      	ldrh	r2, [r3, #0]
+ 80005d6:	b292      	uxth	r2, r2
+ 80005d8:	f042 0201 	orr.w	r2, r2, #1
+ 80005dc:	801a      	strh	r2, [r3, #0]
+    \param [in]      IRQn  External interrupt number. Value cannot be negative.
+ */
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+/*  NVIC->ISER[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));  enable interrupt */
+  NVIC->ISER[(uint32_t)((int32_t)IRQn) >> 5] = (uint32_t)(1 << ((uint32_t)((int32_t)IRQn) & (uint32_t)0x1F)); /* enable interrupt */
+ 80005de:	f04f 5280 	mov.w	r2, #268435456	; 0x10000000
+ 80005e2:	4b0a      	ldr	r3, [pc, #40]	; (800060c <main+0x8c>)
+ 80005e4:	601a      	str	r2, [r3, #0]
+//-----------------------------------------------------------------------------
+INLINE void OS::run()
+{
+
+#if scmRTOS_SUSPENDED_PROCESS_ENABLE != 0
+    Kernel.ReadyProcessMap = TBaseProcess::SuspendedProcessMap;
+ 80005e6:	4b0a      	ldr	r3, [pc, #40]	; (8000610 <main+0x90>)
+ 80005e8:	681b      	ldr	r3, [r3, #0]
+ 80005ea:	4a0a      	ldr	r2, [pc, #40]	; (8000614 <main+0x94>)
+ 80005ec:	6053      	str	r3, [r2, #4]
+    uint_fast8_t p = highest_priority(Kernel.ReadyProcessMap); 
+ 80005ee:	6853      	ldr	r3, [r2, #4]
+        return 31 - __builtin_clz(pm);
+ 80005f0:	fab3 f383 	clz	r3, r3
+ 80005f4:	f1c3 031f 	rsb	r3, r3, #31
+#else 
+    uint_fast8_t p = pr0;
+#endif
+
+    Kernel.CurProcPriority = p;
+ 80005f8:	6013      	str	r3, [r2, #0]
+    stack_item_t *sp = Kernel.ProcessTable[p]->StackPointer;
+ 80005fa:	4a07      	ldr	r2, [pc, #28]	; (8000618 <main+0x98>)
+ 80005fc:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+    os_start(sp);
+ 8000600:	6818      	ldr	r0, [r3, #0]
+ 8000602:	f7ff ff4b 	bl	800049c <os_start>
+ 8000606:	bf00      	nop
+ 8000608:	40023800 	.word	0x40023800
+ 800060c:	e000e100 	.word	0xe000e100
+ 8000610:	20000000 	.word	0x20000000
+ 8000614:	20000020 	.word	0x20000020
+ 8000618:	20000034 	.word	0x20000034
+
+0800061c <TIM2_IRQHandler>:
+OS_INTERRUPT extern "C" void TIM2_IRQHandler(){
+ 800061c:	b410      	push	{r4}
+ 800061e:	b083      	sub	sp, #12
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 8000620:	f3ef 8310 	mrs	r3, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 8000624:	b672      	cpsid	i
+        Kernel.ISR_NestCount++;
+ 8000626:	4936      	ldr	r1, [pc, #216]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 8000628:	688a      	ldr	r2, [r1, #8]
+ 800062a:	3201      	adds	r2, #1
+ 800062c:	608a      	str	r2, [r1, #8]
+    );
+ 800062e:	f383 8810 	msr	PRIMASK, r3
+	i++;
+ 8000632:	4a34      	ldr	r2, [pc, #208]	; (8000704 <TIM2_IRQHandler+0xe8>)
+ 8000634:	6813      	ldr	r3, [r2, #0]
+ 8000636:	3301      	adds	r3, #1
+ 8000638:	6013      	str	r3, [r2, #0]
+	if (i%2 == 0){
+ 800063a:	f013 0f01 	tst.w	r3, #1
+ 800063e:	d141      	bne.n	80006c4 <TIM2_IRQHandler+0xa8>
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 8000640:	f3ef 8110 	mrs	r1, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 8000644:	b672      	cpsid	i
+        TProcessMap Timeouted = ready_process_map();                      // Process has its tag set in ReadyProcessMap if timeout expired,
+ 8000646:	4b2e      	ldr	r3, [pc, #184]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 8000648:	685b      	ldr	r3, [r3, #4]
+        TProcessMap CachedMap = waiters_map;                              // cache volatile
+ 800064a:	4a2f      	ldr	r2, [pc, #188]	; (8000708 <TIM2_IRQHandler+0xec>)
+ 800064c:	6812      	ldr	r2, [r2, #0]
+        if( CachedMap & ~static_cast<unsigned>(Timeouted) )                                      // if any process has to be waked up
+ 800064e:	ea32 0003 	bics.w	r0, r2, r3
+ 8000652:	d035      	beq.n	80006c0 <TIM2_IRQHandler+0xa4>
+    INLINE void set_prio_tag(volatile TProcessMap & pm, const TProcessMap PrioTag) { pm |=  PrioTag; }
+ 8000654:	4c2a      	ldr	r4, [pc, #168]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 8000656:	6860      	ldr	r0, [r4, #4]
+ 8000658:	4310      	orrs	r0, r2
+ 800065a:	6060      	str	r0, [r4, #4]
+    INLINE void clr_prio_tag(TProcessMap & pm, const TProcessMap PrioTag) { pm &= ~static_cast<unsigned>(PrioTag); }
+ 800065c:	4013      	ands	r3, r2
+            waiters_map = CachedMap;
+ 800065e:	4a2a      	ldr	r2, [pc, #168]	; (8000708 <TIM2_IRQHandler+0xec>)
+ 8000660:	6013      	str	r3, [r2, #0]
+            return true;
+ 8000662:	2301      	movs	r3, #1
+}
+//------------------------------------------------------------------------------
+void OS::TEventFlag::signal_isr()
+{
+    TCritSect cs;
+    if(!resume_all_isr(ProcessMap))                         // if no one process was waiting for flag
+ 8000664:	b913      	cbnz	r3, 800066c <TIM2_IRQHandler+0x50>
+        Value = efOn;
+ 8000666:	2201      	movs	r2, #1
+ 8000668:	4b27      	ldr	r3, [pc, #156]	; (8000708 <TIM2_IRQHandler+0xec>)
+ 800066a:	711a      	strb	r2, [r3, #4]
+    );
+ 800066c:	f381 8810 	msr	PRIMASK, r1
+	TIM2->SR &= ~TIM_SR_UIF;//(uint16_t)~TIM_FLAG_Update;//TIM_ClearFlag(TIM2, TIM_FLAG_Update);
+ 8000670:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
+ 8000674:	8a13      	ldrh	r3, [r2, #16]
+ 8000676:	b29b      	uxth	r3, r3
+ 8000678:	f023 0301 	bic.w	r3, r3, #1
+ 800067c:	b29b      	uxth	r3, r3
+ 800067e:	8213      	strh	r3, [r2, #16]
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 8000680:	f3ef 8110 	mrs	r1, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 8000684:	9101      	str	r1, [sp, #4]
+ 8000686:	b672      	cpsid	i
+        if(--Kernel.ISR_NestCount) return;
+ 8000688:	4a1d      	ldr	r2, [pc, #116]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 800068a:	6893      	ldr	r3, [r2, #8]
+ 800068c:	3b01      	subs	r3, #1
+ 800068e:	6093      	str	r3, [r2, #8]
+ 8000690:	2b00      	cmp	r3, #0
+ 8000692:	d132      	bne.n	80006fa <TIM2_IRQHandler+0xde>
+    uint_fast8_t NextPrty = highest_priority(ReadyProcessMap);
+ 8000694:	6853      	ldr	r3, [r2, #4]
+        return 31 - __builtin_clz(pm);
+ 8000696:	fab3 f383 	clz	r3, r3
+ 800069a:	f1c3 031f 	rsb	r3, r3, #31
+    if(NextPrty != CurProcPriority)
+ 800069e:	6812      	ldr	r2, [r2, #0]
+ 80006a0:	4293      	cmp	r3, r2
+ 80006a2:	d006      	beq.n	80006b2 <TIM2_IRQHandler+0x96>
+        SchedProcPriority = NextPrty;
+ 80006a4:	4a16      	ldr	r2, [pc, #88]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 80006a6:	60d3      	str	r3, [r2, #12]
+INLINE void raise_context_switch() { *((volatile uint32_t*)0xE000ED04) |= 0x10000000; }
+ 80006a8:	4a18      	ldr	r2, [pc, #96]	; (800070c <TIM2_IRQHandler+0xf0>)
+ 80006aa:	6813      	ldr	r3, [r2, #0]
+ 80006ac:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 80006b0:	6013      	str	r3, [r2, #0]
+    ~TCritSect() { set_interrupt_state(StatusReg); }
+ 80006b2:	9b01      	ldr	r3, [sp, #4]
+    );
+ 80006b4:	f383 8810 	msr	PRIMASK, r3
+}
+ 80006b8:	b003      	add	sp, #12
+ 80006ba:	f85d 4b04 	ldr.w	r4, [sp], #4
+ 80006be:	4770      	bx	lr
+        return false;
+ 80006c0:	2300      	movs	r3, #0
+ 80006c2:	e7cf      	b.n	8000664 <TIM2_IRQHandler+0x48>
+    __asm__ __volatile__ ("MRS %0, PRIMASK" : "=r"(sr) );
+ 80006c4:	f3ef 8110 	mrs	r1, PRIMASK
+    TCritSect () : StatusReg(get_interrupt_state()) { disable_interrupts(); }
+ 80006c8:	b672      	cpsid	i
+        TProcessMap Timeouted = ready_process_map();                      // Process has its tag set in ReadyProcessMap if timeout expired,
+ 80006ca:	4b0d      	ldr	r3, [pc, #52]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 80006cc:	685b      	ldr	r3, [r3, #4]
+        TProcessMap CachedMap = waiters_map;                              // cache volatile
+ 80006ce:	4a10      	ldr	r2, [pc, #64]	; (8000710 <TIM2_IRQHandler+0xf4>)
+ 80006d0:	6812      	ldr	r2, [r2, #0]
+        if( CachedMap & ~static_cast<unsigned>(Timeouted) )                                      // if any process has to be waked up
+ 80006d2:	ea32 0003 	bics.w	r0, r2, r3
+ 80006d6:	d00e      	beq.n	80006f6 <TIM2_IRQHandler+0xda>
+    INLINE void set_prio_tag(volatile TProcessMap & pm, const TProcessMap PrioTag) { pm |=  PrioTag; }
+ 80006d8:	4c09      	ldr	r4, [pc, #36]	; (8000700 <TIM2_IRQHandler+0xe4>)
+ 80006da:	6860      	ldr	r0, [r4, #4]
+ 80006dc:	4310      	orrs	r0, r2
+ 80006de:	6060      	str	r0, [r4, #4]
+    INLINE void clr_prio_tag(TProcessMap & pm, const TProcessMap PrioTag) { pm &= ~static_cast<unsigned>(PrioTag); }
+ 80006e0:	4013      	ands	r3, r2
+            waiters_map = CachedMap;
+ 80006e2:	4a0b      	ldr	r2, [pc, #44]	; (8000710 <TIM2_IRQHandler+0xf4>)
+ 80006e4:	6013      	str	r3, [r2, #0]
+            return true;
+ 80006e6:	2301      	movs	r3, #1
+    if(!resume_all_isr(ProcessMap))                         // if no one process was waiting for flag
+ 80006e8:	b913      	cbnz	r3, 80006f0 <TIM2_IRQHandler+0xd4>
+        Value = efOn;
+ 80006ea:	2201      	movs	r2, #1
+ 80006ec:	4b08      	ldr	r3, [pc, #32]	; (8000710 <TIM2_IRQHandler+0xf4>)
+ 80006ee:	711a      	strb	r2, [r3, #4]
+    );
+ 80006f0:	f381 8810 	msr	PRIMASK, r1
+ 80006f4:	e7bc      	b.n	8000670 <TIM2_IRQHandler+0x54>
+        return false;
+ 80006f6:	2300      	movs	r3, #0
+ 80006f8:	e7f6      	b.n	80006e8 <TIM2_IRQHandler+0xcc>
+ 80006fa:	f381 8810 	msr	PRIMASK, r1
+ 80006fe:	e7db      	b.n	80006b8 <TIM2_IRQHandler+0x9c>
+ 8000700:	20000020 	.word	0x20000020
+ 8000704:	20000480 	.word	0x20000480
+ 8000708:	20000470 	.word	0x20000470
+ 800070c:	e000ed04 	.word	0xe000ed04
+ 8000710:	20000478 	.word	0x20000478
+
+08000714 <_GLOBAL__sub_I_i>:
+ 8000714:	b508      	push	{r3, lr}
+ 8000716:	f64f 71ff 	movw	r1, #65535	; 0xffff
+ 800071a:	2001      	movs	r0, #1
+ 800071c:	f7ff fefc 	bl	8000518 <_Z41__static_initialization_and_destruction_0ii>
+ 8000720:	bd08      	pop	{r3, pc}
+	...
+
+08000724 <Reset_Handler>:
+ 8000724:	f8df d034 	ldr.w	sp, [pc, #52]	; 800075c <LoopFillZerobss+0x14>
+ 8000728:	2100      	movs	r1, #0
+ 800072a:	e003      	b.n	8000734 <LoopCopyDataInit>
+
+0800072c <CopyDataInit>:
+ 800072c:	4b0c      	ldr	r3, [pc, #48]	; (8000760 <LoopFillZerobss+0x18>)
+ 800072e:	585b      	ldr	r3, [r3, r1]
+ 8000730:	5043      	str	r3, [r0, r1]
+ 8000732:	3104      	adds	r1, #4
+
+08000734 <LoopCopyDataInit>:
+ 8000734:	480b      	ldr	r0, [pc, #44]	; (8000764 <LoopFillZerobss+0x1c>)
+ 8000736:	4b0c      	ldr	r3, [pc, #48]	; (8000768 <LoopFillZerobss+0x20>)
+ 8000738:	1842      	adds	r2, r0, r1
+ 800073a:	429a      	cmp	r2, r3
+ 800073c:	d3f6      	bcc.n	800072c <CopyDataInit>
+ 800073e:	4a0b      	ldr	r2, [pc, #44]	; (800076c <LoopFillZerobss+0x24>)
+ 8000740:	e002      	b.n	8000748 <LoopFillZerobss>
+
+08000742 <FillZerobss>:
+ 8000742:	2300      	movs	r3, #0
+ 8000744:	f842 3b04 	str.w	r3, [r2], #4
+
+08000748 <LoopFillZerobss>:
+ 8000748:	4b09      	ldr	r3, [pc, #36]	; (8000770 <LoopFillZerobss+0x28>)
+ 800074a:	429a      	cmp	r2, r3
+ 800074c:	d3f9      	bcc.n	8000742 <FillZerobss>
+ 800074e:	f000 f87b 	bl	8000848 <SystemInit>
+ 8000752:	f000 f8a1 	bl	8000898 <__libc_init_array>
+ 8000756:	f7ff ff13 	bl	8000580 <main>
+ 800075a:	4770      	bx	lr
+ 800075c:	20018000 	.word	0x20018000
+ 8000760:	08000914 	.word	0x08000914
+ 8000764:	20000000 	.word	0x20000000
+ 8000768:	20000004 	.word	0x20000004
+ 800076c:	20000004 	.word	0x20000004
+ 8000770:	20000484 	.word	0x20000484
+
+08000774 <ADC_IRQHandler>:
+ 8000774:	e7fe      	b.n	8000774 <ADC_IRQHandler>
+
+08000776 <NMI_Handler>:
+  * @brief   This function handles NMI exception.
+  * @param  None
+  * @retval None
+  */
+void NMI_Handler(void)
+{
+ 8000776:	4770      	bx	lr
+
+08000778 <HardFault_Handler>:
+  * @brief  This function handles Hard Fault exception.
+  * @param  None
+  * @retval None
+  */
+void HardFault_Handler(void)
+{
+ 8000778:	e7fe      	b.n	8000778 <HardFault_Handler>
+
+0800077a <MemManage_Handler>:
+  * @brief  This function handles Memory Manage exception.
+  * @param  None
+  * @retval None
+  */
+void MemManage_Handler(void)
+{
+ 800077a:	e7fe      	b.n	800077a <MemManage_Handler>
+
+0800077c <BusFault_Handler>:
+  * @brief  This function handles Bus Fault exception.
+  * @param  None
+  * @retval None
+  */
+void BusFault_Handler(void)
+{
+ 800077c:	e7fe      	b.n	800077c <BusFault_Handler>
+
+0800077e <UsageFault_Handler>:
+  * @brief  This function handles Usage Fault exception.
+  * @param  None
+  * @retval None
+  */
+void UsageFault_Handler(void)
+{
+ 800077e:	e7fe      	b.n	800077e <UsageFault_Handler>
+
+08000780 <SVC_Handler>:
+  * @brief  This function handles SVCall exception.
+  * @param  None
+  * @retval None
+  */
+void SVC_Handler(void)
+{
+ 8000780:	4770      	bx	lr
+
+08000782 <DebugMon_Handler>:
+  * @brief  This function handles Debug Monitor exception.
+  * @param  None
+  * @retval None
+  */
+void DebugMon_Handler(void)
+{
+ 8000782:	4770      	bx	lr
+
+08000784 <SetSysClock>:
+  *         is reset to the default reset state (done in SystemInit() function).   
+  * @param  None
+  * @retval None
+  */
+static void SetSysClock(void)
+{
+ 8000784:	b082      	sub	sp, #8
+/******************************************************************************/
+/*            PLL (clocked by HSE) used as System clock source                */
+/******************************************************************************/
+  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
+ 8000786:	2300      	movs	r3, #0
+ 8000788:	9301      	str	r3, [sp, #4]
+ 800078a:	9300      	str	r3, [sp, #0]
+  
+  /* Enable HSE */
+  RCC->CR |= ((uint32_t)RCC_CR_HSEON);
+ 800078c:	4a2a      	ldr	r2, [pc, #168]	; (8000838 <SetSysClock+0xb4>)
+ 800078e:	6813      	ldr	r3, [r2, #0]
+ 8000790:	f443 3380 	orr.w	r3, r3, #65536	; 0x10000
+ 8000794:	6013      	str	r3, [r2, #0]
+ 
+  /* Wait till HSE is ready and if Time out is reached exit */
+  do
+  {
+    HSEStatus = RCC->CR & RCC_CR_HSERDY;
+ 8000796:	4b28      	ldr	r3, [pc, #160]	; (8000838 <SetSysClock+0xb4>)
+ 8000798:	681b      	ldr	r3, [r3, #0]
+ 800079a:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
+ 800079e:	9300      	str	r3, [sp, #0]
+    StartUpCounter++;
+ 80007a0:	9b01      	ldr	r3, [sp, #4]
+ 80007a2:	3301      	adds	r3, #1
+ 80007a4:	9301      	str	r3, [sp, #4]
+  } while((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
+ 80007a6:	9b00      	ldr	r3, [sp, #0]
+ 80007a8:	b91b      	cbnz	r3, 80007b2 <SetSysClock+0x2e>
+ 80007aa:	9b01      	ldr	r3, [sp, #4]
+ 80007ac:	f5b3 6fa0 	cmp.w	r3, #1280	; 0x500
+ 80007b0:	d1f1      	bne.n	8000796 <SetSysClock+0x12>
+
+  if ((RCC->CR & RCC_CR_HSERDY) != RESET)
+ 80007b2:	4b21      	ldr	r3, [pc, #132]	; (8000838 <SetSysClock+0xb4>)
+ 80007b4:	681b      	ldr	r3, [r3, #0]
+ 80007b6:	f413 3f00 	tst.w	r3, #131072	; 0x20000
+ 80007ba:	d006      	beq.n	80007ca <SetSysClock+0x46>
+  {
+    HSEStatus = (uint32_t)0x01;
+ 80007bc:	2301      	movs	r3, #1
+ 80007be:	9300      	str	r3, [sp, #0]
+  else
+  {
+    HSEStatus = (uint32_t)0x00;
+  }
+
+  if (HSEStatus == (uint32_t)0x01)
+ 80007c0:	9b00      	ldr	r3, [sp, #0]
+ 80007c2:	2b01      	cmp	r3, #1
+ 80007c4:	d004      	beq.n	80007d0 <SetSysClock+0x4c>
+  else
+  { /* If HSE fails to start-up, the application will have wrong clock
+         configuration. User can add here some code to deal with this error */
+  }
+
+}
+ 80007c6:	b002      	add	sp, #8
+ 80007c8:	4770      	bx	lr
+    HSEStatus = (uint32_t)0x00;
+ 80007ca:	2300      	movs	r3, #0
+ 80007cc:	9300      	str	r3, [sp, #0]
+ 80007ce:	e7f7      	b.n	80007c0 <SetSysClock+0x3c>
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+ 80007d0:	4b19      	ldr	r3, [pc, #100]	; (8000838 <SetSysClock+0xb4>)
+ 80007d2:	6c1a      	ldr	r2, [r3, #64]	; 0x40
+ 80007d4:	f042 5280 	orr.w	r2, r2, #268435456	; 0x10000000
+ 80007d8:	641a      	str	r2, [r3, #64]	; 0x40
+    PWR->CR |= PWR_CR_VOS;
+ 80007da:	4918      	ldr	r1, [pc, #96]	; (800083c <SetSysClock+0xb8>)
+ 80007dc:	680a      	ldr	r2, [r1, #0]
+ 80007de:	f442 4240 	orr.w	r2, r2, #49152	; 0xc000
+ 80007e2:	600a      	str	r2, [r1, #0]
+    RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
+ 80007e4:	689a      	ldr	r2, [r3, #8]
+ 80007e6:	609a      	str	r2, [r3, #8]
+    RCC->CFGR |= RCC_CFGR_PPRE2_DIV2;
+ 80007e8:	689a      	ldr	r2, [r3, #8]
+ 80007ea:	f442 4200 	orr.w	r2, r2, #32768	; 0x8000
+ 80007ee:	609a      	str	r2, [r3, #8]
+    RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
+ 80007f0:	689a      	ldr	r2, [r3, #8]
+ 80007f2:	f442 52a0 	orr.w	r2, r2, #5120	; 0x1400
+ 80007f6:	609a      	str	r2, [r3, #8]
+    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+ 80007f8:	4a11      	ldr	r2, [pc, #68]	; (8000840 <SetSysClock+0xbc>)
+ 80007fa:	605a      	str	r2, [r3, #4]
+    RCC->CR |= RCC_CR_PLLON;
+ 80007fc:	681a      	ldr	r2, [r3, #0]
+ 80007fe:	f042 7280 	orr.w	r2, r2, #16777216	; 0x1000000
+ 8000802:	601a      	str	r2, [r3, #0]
+    while((RCC->CR & RCC_CR_PLLRDY) == 0)
+ 8000804:	4b0c      	ldr	r3, [pc, #48]	; (8000838 <SetSysClock+0xb4>)
+ 8000806:	681b      	ldr	r3, [r3, #0]
+ 8000808:	f013 7f00 	tst.w	r3, #33554432	; 0x2000000
+ 800080c:	d0fa      	beq.n	8000804 <SetSysClock+0x80>
+    FLASH->ACR = FLASH_ACR_PRFTEN |FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;
+ 800080e:	f240 7205 	movw	r2, #1797	; 0x705
+ 8000812:	4b0c      	ldr	r3, [pc, #48]	; (8000844 <SetSysClock+0xc0>)
+ 8000814:	601a      	str	r2, [r3, #0]
+    RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
+ 8000816:	f5a3 6380 	sub.w	r3, r3, #1024	; 0x400
+ 800081a:	689a      	ldr	r2, [r3, #8]
+ 800081c:	f022 0203 	bic.w	r2, r2, #3
+ 8000820:	609a      	str	r2, [r3, #8]
+    RCC->CFGR |= RCC_CFGR_SW_PLL;
+ 8000822:	689a      	ldr	r2, [r3, #8]
+ 8000824:	f042 0202 	orr.w	r2, r2, #2
+ 8000828:	609a      	str	r2, [r3, #8]
+    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
+ 800082a:	4b03      	ldr	r3, [pc, #12]	; (8000838 <SetSysClock+0xb4>)
+ 800082c:	689b      	ldr	r3, [r3, #8]
+ 800082e:	f003 030c 	and.w	r3, r3, #12
+ 8000832:	2b08      	cmp	r3, #8
+ 8000834:	d1f9      	bne.n	800082a <SetSysClock+0xa6>
+ 8000836:	e7c6      	b.n	80007c6 <SetSysClock+0x42>
+ 8000838:	40023800 	.word	0x40023800
+ 800083c:	40007000 	.word	0x40007000
+ 8000840:	07405419 	.word	0x07405419
+ 8000844:	40023c00 	.word	0x40023c00
+
+08000848 <SystemInit>:
+{
+ 8000848:	b510      	push	{r4, lr}
+    SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+ 800084a:	4c10      	ldr	r4, [pc, #64]	; (800088c <SystemInit+0x44>)
+ 800084c:	f8d4 3088 	ldr.w	r3, [r4, #136]	; 0x88
+ 8000850:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 8000854:	f8c4 3088 	str.w	r3, [r4, #136]	; 0x88
+  RCC->CR |= (uint32_t)0x00000001;
+ 8000858:	4b0d      	ldr	r3, [pc, #52]	; (8000890 <SystemInit+0x48>)
+ 800085a:	681a      	ldr	r2, [r3, #0]
+ 800085c:	f042 0201 	orr.w	r2, r2, #1
+ 8000860:	601a      	str	r2, [r3, #0]
+  RCC->CFGR = 0x00000000;
+ 8000862:	2100      	movs	r1, #0
+ 8000864:	6099      	str	r1, [r3, #8]
+  RCC->CR &= (uint32_t)0xFEF6FFFF;
+ 8000866:	681a      	ldr	r2, [r3, #0]
+ 8000868:	f022 7284 	bic.w	r2, r2, #17301504	; 0x1080000
+ 800086c:	f422 3280 	bic.w	r2, r2, #65536	; 0x10000
+ 8000870:	601a      	str	r2, [r3, #0]
+  RCC->PLLCFGR = 0x24003010;
+ 8000872:	4a08      	ldr	r2, [pc, #32]	; (8000894 <SystemInit+0x4c>)
+ 8000874:	605a      	str	r2, [r3, #4]
+  RCC->CR &= (uint32_t)0xFFFBFFFF;
+ 8000876:	681a      	ldr	r2, [r3, #0]
+ 8000878:	f422 2280 	bic.w	r2, r2, #262144	; 0x40000
+ 800087c:	601a      	str	r2, [r3, #0]
+  RCC->CIR = 0x00000000;
+ 800087e:	60d9      	str	r1, [r3, #12]
+  SetSysClock();
+ 8000880:	f7ff ff80 	bl	8000784 <SetSysClock>
+  SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+ 8000884:	f04f 6300 	mov.w	r3, #134217728	; 0x8000000
+ 8000888:	60a3      	str	r3, [r4, #8]
+ 800088a:	bd10      	pop	{r4, pc}
+ 800088c:	e000ed00 	.word	0xe000ed00
+ 8000890:	40023800 	.word	0x40023800
+ 8000894:	24003010 	.word	0x24003010
+
+08000898 <__libc_init_array>:
+ 8000898:	b570      	push	{r4, r5, r6, lr}
+ 800089a:	4e0d      	ldr	r6, [pc, #52]	; (80008d0 <__libc_init_array+0x38>)
+ 800089c:	4c0d      	ldr	r4, [pc, #52]	; (80008d4 <__libc_init_array+0x3c>)
+ 800089e:	1ba4      	subs	r4, r4, r6
+ 80008a0:	10a4      	asrs	r4, r4, #2
+ 80008a2:	2500      	movs	r5, #0
+ 80008a4:	42a5      	cmp	r5, r4
+ 80008a6:	d109      	bne.n	80008bc <__libc_init_array+0x24>
+ 80008a8:	4e0b      	ldr	r6, [pc, #44]	; (80008d8 <__libc_init_array+0x40>)
+ 80008aa:	4c0c      	ldr	r4, [pc, #48]	; (80008dc <__libc_init_array+0x44>)
+ 80008ac:	f000 f818 	bl	80008e0 <_init>
+ 80008b0:	1ba4      	subs	r4, r4, r6
+ 80008b2:	10a4      	asrs	r4, r4, #2
+ 80008b4:	2500      	movs	r5, #0
+ 80008b6:	42a5      	cmp	r5, r4
+ 80008b8:	d105      	bne.n	80008c6 <__libc_init_array+0x2e>
+ 80008ba:	bd70      	pop	{r4, r5, r6, pc}
+ 80008bc:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 80008c0:	4798      	blx	r3
+ 80008c2:	3501      	adds	r5, #1
+ 80008c4:	e7ee      	b.n	80008a4 <__libc_init_array+0xc>
+ 80008c6:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 80008ca:	4798      	blx	r3
+ 80008cc:	3501      	adds	r5, #1
+ 80008ce:	e7f2      	b.n	80008b6 <__libc_init_array+0x1e>
+ 80008d0:	08000904 	.word	0x08000904
+ 80008d4:	08000904 	.word	0x08000904
+ 80008d8:	08000904 	.word	0x08000904
+ 80008dc:	08000910 	.word	0x08000910
+
+080008e0 <_init>:
+ 80008e0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80008e2:	bf00      	nop
+ 80008e4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80008e6:	bc08      	pop	{r3}
+ 80008e8:	469e      	mov	lr, r3
+ 80008ea:	4770      	bx	lr
+
+080008ec <_fini>:
+ 80008ec:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80008ee:	bf00      	nop
+ 80008f0:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80008f2:	bc08      	pop	{r3}
+ 80008f4:	469e      	mov	lr, r3
+ 80008f6:	4770      	bx	lr

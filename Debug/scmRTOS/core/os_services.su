@@ -1,0 +1,11 @@
+os_services.cpp:47:6:static bool OS::TService::resume_all(volatile TProcessMap&)	8	static
+os_services.cpp:64:6:static bool OS::TService::resume_next_ready(volatile TProcessMap&)	8	static
+os_services.cpp:96:6:bool OS::TEventFlag::wait(timeout_t)	24	static
+os_services.cpp:127:6:void OS::TMutex::lock()	16	static
+os_services.cpp:139:6:bool OS::TMutex::try_lock(timeout_t)	24	static
+os_services.cpp:156:6:void OS::TMutex::unlock()	8	static
+os_services.cpp:175:6:void OS::TChannel::push(uint8_t)	16	static
+os_services.cpp:189:9:uint8_t OS::TChannel::pop()	16	static
+os_services.cpp:204:6:void OS::TChannel::write(const uint8_t*, uint8_t)	24	static
+os_services.cpp:218:6:void OS::TChannel::read(uint8_t*, uint8_t)	24	static
+os_services.cpp:241:6:bool OS::TBaseMessage::wait(timeout_t)	24	static

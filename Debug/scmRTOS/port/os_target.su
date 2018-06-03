@@ -1,0 +1,7 @@
+os_target.cpp:93:6:void OS::TBaseProcess::init_stack_frame(stack_item_t*, void (*)(), stack_item_t*)	4	static
+os_target.cpp:137:40:void PendSV_Handler()	0	static
+os_target.cpp:302:19:void SysTick_Handler()	16	static
+os_target.cpp:324:17:void __init_system_timer()	0	static
+os_target.cpp:339:6:void LOCK_SYSTEM_TIMER()	0	static
+os_target.cpp:340:6:void UNLOCK_SYSTEM_TIMER()	0	static
+os_target.cpp:354:26:void os_start(stack_item_t*)	0	static

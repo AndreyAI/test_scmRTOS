@@ -1,0 +1,8 @@
+usrlib.cpp:52:1:usr::TCbuf::TCbuf(uint8_t*, uint8_t)	0	static
+usrlib.cpp:80:9:uint8_t usr::TCbuf::get_byte(uint8_t) const	0	static
+usrlib.cpp:113:6:void usr::TCbuf::push(uint8_t)	0	static
+usrlib.cpp:61:6:bool usr::TCbuf::write(const uint8_t*, uint8_t)	24	static
+usrlib.cpp:91:6:bool usr::TCbuf::put(uint8_t)	8	static
+usrlib.cpp:128:9:uint8_t usr::TCbuf::pop()	0	static
+usrlib.cpp:72:6:void usr::TCbuf::read(uint8_t*, uint8_t)	24	static
+usrlib.cpp:100:9:uint8_t usr::TCbuf::get()	8	static
