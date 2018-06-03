@@ -70,24 +70,16 @@ int main(void)
 	  GPIOA->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR5_0; //GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	  //GPIOA->PUPDR |= GPIO_PUPDR_PUPDR5_0;//GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	  //GPIO_Init(GPIOA, &GPIO_InitStructure);
-	  GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+	  GPIOA->BSRRL |= GPIO_BSRR_BS_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
 
 
 
 	  TIM2->PSC = 42000 - 1; // Настраиваем делитель что таймер тикал 1000 раз в секунду
 	  TIM2->ARR = 1000 - 1; // Чтоб прерывание случалось раз в секунду
 	  TIM2->DIER |= TIM_DIER_UIE; //разрешаем прерывание от таймера
-	  TIM2->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
+	  TIM2->CR1 |= TIM_CR1_CEN; // Начать отсчёт
 	  NVIC_EnableIRQ(TIM2_IRQn);
-	  /*TIM_TimeBaseStructInit(&TIM2_init);
-	  TIM2_init.TIM_Prescaler = 42000 - 1; // частота счета 10 КГц
-	  //TIM2_init.TIM_CounterMode = TIM_CounterMode_Up;
-	  TIM2_init.TIM_Period = 1000 - 1;
-	  //TIM2->DIER|=TIM_DIER_UIE;
-	  TIM_TimeBaseInit(TIM2, &TIM2_init);
-	  TIM2->DIER |= TIM_IT_Update;//TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
-	  TIM2->CR1 |= TIM_CR1_CEN;//TIM_Cmd(TIM2, ENABLE);
-	  NVIC_EnableIRQ(TIM2_IRQn);*/
+
 
 	  OS::run();
 
@@ -101,7 +93,7 @@ namespace OS
         for(;;)
         {	//sleep(1000);
         	_ev.wait();
-        	GPIOA->BSRRH |= GPIO_Pin_5;//GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+        	GPIOA->BSRRH |= GPIO_BSRR_BS_5;//GPIO_ResetBits(GPIOA, GPIO_Pin_5);
         	//sleep();
         	//sleep(1000);
         }
@@ -113,7 +105,7 @@ namespace OS
             {
             	//sleep(1000);
             	_ev1.wait();
-            	GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+            	GPIOA->BSRRL |= GPIO_BSRR_BS_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
             	//sleep(1000);
             }
         }

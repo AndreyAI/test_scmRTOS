@@ -2349,13 +2349,13 @@ OUTPUT(scmRTOS.elf elf32-littlearm)
  .debug_ranges  0x00000418       0x40 src\stm32f4xx_it.o
  .debug_ranges  0x00000458       0x20 src\system_stm32f4xx.o
 
-.debug_line     0x00000000     0x17d2
+.debug_line     0x00000000     0x17d4
  .debug_line    0x00000000      0x443 scmRTOS\core\os_kernel.o
  .debug_line    0x00000443      0x72b scmRTOS\core\os_services.o
  .debug_line    0x00000b6e      0x3da scmRTOS\port\os_target.o
- .debug_line    0x00000f48      0x48a src\main.o
- .debug_line    0x000013d2      0x1ea src\stm32f4xx_it.o
- .debug_line    0x000015bc      0x216 src\system_stm32f4xx.o
+ .debug_line    0x00000f48      0x48c src\main.o
+ .debug_line    0x000013d4      0x1ea src\stm32f4xx_it.o
+ .debug_line    0x000015be      0x216 src\system_stm32f4xx.o
 
 .debug_str      0x00000000     0x24fc
  .debug_str     0x00000000     0x106c scmRTOS\core\os_kernel.o

@@ -33,11 +33,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  14 .debug_ranges 00000478  00000000  00000000  0002abc7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_line   000017d2  00000000  00000000  0002b03f  2**0
+ 15 .debug_line   000017d4  00000000  00000000  0002b03f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_str    000024fc  00000000  00000000  0002c811  2**0
+ 16 .debug_str    000024fc  00000000  00000000  0002c813  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .comment      0000007c  00000000  00000000  0002ed0d  2**0
+ 17 .comment      0000007c  00000000  00000000  0002ed0f  2**0
                   CONTENTS, READONLY
  18 .debug_frame  000004a0  00000000  00000000  0002ed8c  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -641,7 +641,7 @@ namespace OS
  80004da:	2100      	movs	r1, #0
  80004dc:	4804      	ldr	r0, [pc, #16]	; (80004f0 <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv+0x18>)
  80004de:	f7ff fee5 	bl	80002ac <_ZN2OS10TEventFlag4waitEt>
-        	GPIOA->BSRRH |= GPIO_Pin_5;//GPIO_ResetBits(GPIOA, GPIO_Pin_5);
+        	GPIOA->BSRRH |= GPIO_BSRR_BS_5;//GPIO_ResetBits(GPIOA, GPIO_Pin_5);
  80004e2:	4a04      	ldr	r2, [pc, #16]	; (80004f4 <_ZN2OS7processILNS_9TPriorityE2ELj300ELNS_18TProcessStartStateE0EE4execEv+0x1c>)
  80004e4:	8b53      	ldrh	r3, [r2, #26]
  80004e6:	b29b      	uxth	r3, r3
@@ -666,7 +666,7 @@ namespace OS
  80004fa:	2100      	movs	r1, #0
  80004fc:	4804      	ldr	r0, [pc, #16]	; (8000510 <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv+0x18>)
  80004fe:	f7ff fed5 	bl	80002ac <_ZN2OS10TEventFlag4waitEt>
-            	GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+            	GPIOA->BSRRL |= GPIO_BSRR_BS_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
  8000502:	4a04      	ldr	r2, [pc, #16]	; (8000514 <_ZN2OS7processILNS_9TPriorityE1ELj300ELNS_18TProcessStartStateE0EE4execEv+0x1c>)
  8000504:	8b13      	ldrh	r3, [r2, #24]
  8000506:	b29b      	uxth	r3, r3
@@ -755,7 +755,7 @@ namespace OS
  80005a8:	689a      	ldr	r2, [r3, #8]
  80005aa:	f442 6280 	orr.w	r2, r2, #1024	; 0x400
  80005ae:	609a      	str	r2, [r3, #8]
-	  GPIOA->BSRRL |= GPIO_Pin_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
+	  GPIOA->BSRRL |= GPIO_BSRR_BS_5;//GPIO_SetBits(GPIOA, GPIO_Pin_5);
  80005b0:	8b1a      	ldrh	r2, [r3, #24]
  80005b2:	b292      	uxth	r2, r2
  80005b4:	f042 0220 	orr.w	r2, r2, #32
@@ -772,7 +772,7 @@ namespace OS
  80005cc:	b292      	uxth	r2, r2
  80005ce:	f042 0201 	orr.w	r2, r2, #1
  80005d2:	819a      	strh	r2, [r3, #12]
-	  TIM2->CR1 |= TIM_CR1_CEN; // Начать отсчёт!
+	  TIM2->CR1 |= TIM_CR1_CEN; // Начать отсчёт
  80005d4:	881a      	ldrh	r2, [r3, #0]
  80005d6:	b292      	uxth	r2, r2
  80005d8:	f042 0201 	orr.w	r2, r2, #1

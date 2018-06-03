@@ -1,6 +1,6 @@
-main.cpp:99:21:static void OS::process<pr, stk_size, pss>::exec() [with OS::TPriority pr = (OS::TPriority)2u; unsigned int stk_size = 300u; OS::TProcessStartState pss = (OS::TProcessStartState)0u]	8	static
-main.cpp:110:21:static void OS::process<pr, stk_size, pss>::exec() [with OS::TPriority pr = (OS::TPriority)1u; unsigned int stk_size = 300u; OS::TProcessStartState pss = (OS::TProcessStartState)0u]	8	static
-main.cpp:135:1:void __static_initialization_and_destruction_0(int, int)	16	static
+main.cpp:91:21:static void OS::process<pr, stk_size, pss>::exec() [with OS::TPriority pr = (OS::TPriority)2u; unsigned int stk_size = 300u; OS::TProcessStartState pss = (OS::TProcessStartState)0u]	8	static
+main.cpp:102:21:static void OS::process<pr, stk_size, pss>::exec() [with OS::TPriority pr = (OS::TPriority)1u; unsigned int stk_size = 300u; OS::TProcessStartState pss = (OS::TProcessStartState)0u]	8	static
+main.cpp:127:1:void __static_initialization_and_destruction_0(int, int)	16	static
 main.cpp:62:5:int main()	8	static
-main.cpp:125:30:void TIM2_IRQHandler()	16	static
-main.cpp:135:1:cpp)	8	static
+main.cpp:117:30:void TIM2_IRQHandler()	16	static
+main.cpp:127:1:cpp)	8	static
